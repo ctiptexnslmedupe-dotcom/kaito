@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { BarraLibreSection } from './components/BarraLibreSection';
@@ -21,7 +21,7 @@ export default function App() {
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
 
   // Monitor scroll for back to top button
-  React.useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 500);
     };
