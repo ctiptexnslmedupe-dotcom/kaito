@@ -1,0 +1,6 @@
+{
+  "name": "KAI-TO Barra Fusión",
+  "description": "Sitio web moderno y vibrante para KAI-TO Barra Fusión: makis nikkei, barra libre all you can eat, locales en Miraflores y Surco, carta interactiva y reservas directas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
