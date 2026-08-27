@@ -1,4 +1,4 @@
-// Ambient Tokyo-Lima Lounge Generator using Web Audio API (No external assets required)
+// Ambient Novoandino Lounge Generator using Web Audio API (No external assets required)
 let audioCtx: AudioContext | null = null;
 let isPlaying = false;
 let masterGain: GainNode | null = null;
@@ -35,24 +35,24 @@ export const startLoungeAudio = () => {
 
     isPlaying = true;
 
-    // Pentatonic scale frequencies for warm Zen & Lounge ambiance (D minor / Japanese Insen scale)
-    // D3, F3, G3, A3, C4, D4, F4, G4, A4
-    const notes = [146.83, 174.61, 196.00, 220.00, 261.63, 293.66, 349.23, 392.00, 440.00, 523.25];
+    // Pentatonic scale frequencies for warm Andean harmonic ambiance (A minor / Charango & Quena acoustic notes)
+    // A3, C4, D4, E4, G4, A4, C5, D5, E5
+    const notes = [220.00, 261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
 
-    // Background Drone Chords (Warm pad)
+    // Background Warm Acoustic Pad (Earth resonance)
     const playWarmDrone = () => {
       if (!audioCtx || !masterGain || !isPlaying) return;
-      const droneFreqs = [73.42, 110.00, 146.83]; // Low D2, A2, D3
+      const droneFreqs = [110.00, 164.81, 220.00]; // A2, E3, A3
       droneFreqs.forEach((freq) => {
         if (!audioCtx || !masterGain) return;
         const osc = audioCtx.createOscillator();
         const droneGain = audioCtx.createGain();
         
-        osc.type = 'sine';
+        osc.type = 'triangle';
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
         
         droneGain.gain.setValueAtTime(0, audioCtx.currentTime);
-        droneGain.gain.linearRampToValueAtTime(0.015, audioCtx.currentTime + 3);
+        droneGain.gain.linearRampToValueAtTime(0.018, audioCtx.currentTime + 3);
         droneGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 10);
 
         osc.connect(droneGain);
@@ -63,7 +63,7 @@ export const startLoungeAudio = () => {
       });
     };
 
-    // Play periodic ethereal chimes
+    // Play periodic Andean chime / string plucked harmonic
     const playChime = () => {
       if (!audioCtx || !masterGain || !isPlaying) return;
 
@@ -75,14 +75,14 @@ export const startLoungeAudio = () => {
       osc.frequency.setValueAtTime(randomNote, audioCtx.currentTime);
 
       noteGain.gain.setValueAtTime(0, audioCtx.currentTime);
-      noteGain.gain.linearRampToValueAtTime(0.035, audioCtx.currentTime + 0.1);
-      noteGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.5);
+      noteGain.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 0.08);
+      noteGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.2);
 
       osc.connect(noteGain);
       noteGain.connect(masterGain);
 
       osc.start();
-      osc.stop(audioCtx.currentTime + 3.6);
+      osc.stop(audioCtx.currentTime + 3.3);
     };
 
     playWarmDrone();
@@ -98,10 +98,8 @@ export const startLoungeAudio = () => {
         playWarmDrone();
       }
     }, 2800);
-
   } catch (err) {
-    console.warn('AudioContext not allowed or supported', err);
-    isPlaying = false;
+    console.error('Lounge audio error', err);
   }
 };
 
@@ -112,45 +110,55 @@ export const stopLoungeAudio = () => {
     intervalId = null;
   }
   if (masterGain && audioCtx) {
-    try {
-      masterGain.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.5);
-    } catch (e) {}
+    masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
+    masterGain.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.5);
+    setTimeout(() => {
+      if (!isPlaying && audioCtx && audioCtx.state !== 'closed') {
+        // audio muted
+      }
+    }, 600);
   }
 };
 
-// Play a quick satisfying interactive flame crackle or knife slice sound on click
+// Play warm sizzle sound effect for hot wok / chicharron / flameado
 export const playInteractiveSizzle = () => {
   try {
     const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
     if (!AudioContextClass) return;
-    const ctx = new AudioContextClass();
-    if (ctx.state === 'suspended') ctx.resume();
 
-    // Noise buffer for flame torch sizzle
-    const bufferSize = ctx.sampleRate * 0.4;
+    const ctx = audioCtx || new AudioContextClass();
+    if (ctx.state === 'suspended') {
+      ctx.resume();
+    }
+
+    const bufferSize = ctx.sampleRate * 1.5;
     const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
     const data = buffer.getChannelData(0);
+
     for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.12));
+      data[i] = Math.random() * 2 - 1; // White noise
     }
 
     const noise = ctx.createBufferSource();
     noise.buffer = buffer;
 
-    // Filter for torch woosh
     const filter = ctx.createBiquadFilter();
     filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(800, ctx.currentTime);
-    filter.frequency.exponentialRampToValueAtTime(2400, ctx.currentTime + 0.2);
+    filter.frequency.setValueAtTime(2400, ctx.currentTime);
+    filter.Q.setValueAtTime(1.8, ctx.currentTime);
 
     const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.06, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.38);
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.4);
 
     noise.connect(filter);
     filter.connect(gain);
     gain.connect(ctx.destination);
 
     noise.start();
-  } catch (e) {}
+    noise.stop(ctx.currentTime + 1.5);
+  } catch (err) {
+    console.error('Sizzle audio error', err);
+  }
 };

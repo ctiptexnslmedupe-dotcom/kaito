@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { AnimatedBackground } from './components/AnimatedBackground';
+import { LiveStatusTicker } from './components/LiveStatusTicker';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
-import { BarraLibreSection } from './components/BarraLibreSection';
-import { MenuExplorer } from './components/MenuExplorer';
 import { PromotionsSection } from './components/PromotionsSection';
+import { MenuExplorer } from './components/MenuExplorer';
 import { CustomRoundBuilder } from './components/CustomRoundBuilder';
 import { NeonWallExperience } from './components/NeonWallExperience';
 import { LocationsSection } from './components/LocationsSection';
@@ -11,13 +12,12 @@ import { Footer } from './components/Footer';
 import { DishDetailModal } from './components/DishDetailModal';
 import { ReservationModal } from './components/ReservationModal';
 import { Dish } from './types';
-import { MessageCircle, Calendar, ArrowUp, Flame, Sparkles } from 'lucide-react';
+import { MessageCircle, Calendar, ArrowUp } from 'lucide-react';
 
 export default function App() {
   const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
   const [isReservationOpen, setIsReservationOpen] = useState<boolean>(false);
-  const [reservationLocationId, setReservationLocationId] = useState<string>('miraflores');
-  const [roundDishes, setRoundDishes] = useState<Dish[]>([]);
+  const [reservationLocationId, setReservationLocationId] = useState<string>('huanka-chiclayo-principal');
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
 
   // Monitor scroll for back to top button
@@ -36,26 +36,17 @@ export default function App() {
     setIsReservationOpen(true);
   };
 
-  const handleAddToRound = (dish: Dish) => {
-    if (roundDishes.some((d) => d.id === dish.id)) {
-      setRoundDishes(roundDishes.filter((d) => d.id !== dish.id));
-    } else {
-      if (roundDishes.length < 3) {
-        setRoundDishes([...roundDishes, dish]);
-      } else {
-        setRoundDishes([roundDishes[0], roundDishes[1], dish]);
-      }
-    }
-  };
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div className="min-h-screen bg-[#090b10] text-slate-100 flex flex-col relative selection:bg-pink-500 selection:text-white">
+    <div className="min-h-screen bg-[#120b08] text-[#f7efe6] flex flex-col relative selection:bg-[#c86a3e] selection:text-white">
       
-      {/* Top Floating Navbar */}
+      {/* 1. Animated Moving 60fps Background with Embers & Particle Mesh */}
+      <AnimatedBackground />
+
+      {/* 2. Top Floating Navbar */}
       <Navbar
         onOpenReservation={() => handleOpenReservation()}
         onOpenMenu={() => {
@@ -65,9 +56,9 @@ export default function App() {
       />
 
       {/* Main Page Content */}
-      <main className="flex-1">
+      <main className="flex-1 relative z-10">
         
-        {/* 1. Hero Section */}
+        {/* 3. Hero Section with Sizzle Simulator & Dish Switcher */}
         <HeroSection
           onOpenReservation={() => handleOpenReservation()}
           onExploreMenu={() => {
@@ -76,49 +67,40 @@ export default function App() {
           }}
         />
 
-        {/* 2. Barra Libre All-You-Can-Eat Highlight */}
-        <BarraLibreSection
-          onOpenReservation={() => handleOpenReservation()}
-        />
+        {/* 4. Live Status Ticker (Horarios Chiclayo & Happy Hour) */}
+        <LiveStatusTicker />
 
-        {/* 3. Interactive Menu Explorer (Masa NYC structured layout + Neon Nikkei energy) */}
-        <MenuExplorer
-          onSelectDish={(dish) => setSelectedDish(dish)}
-          onAddToRound={handleAddToRound}
-          roundDishesIds={roundDishes.map((d) => d.id)}
-        />
-
-        {/* 4. Combos & Promotions */}
+        {/* 5. Promociones & Momentos Huanka (Desayunos, Happy Hour, Cenas Románticas) */}
         <PromotionsSection
           onOpenReservation={() => handleOpenReservation()}
         />
 
-        {/* 5. Interactive "Arma tu Ronda / Mesa" Builder */}
-        <CustomRoundBuilder
+        {/* 6. Interactive Menu Explorer */}
+        <MenuExplorer
+          onSelectDish={(dish) => setSelectedDish(dish)}
           onOpenReservation={() => handleOpenReservation()}
         />
 
-        {/* 6. Neon Wall & Instagram Community Experience */}
+        {/* 7. Interactive "Arma tu Banquete / Tabla" Builder */}
+        <CustomRoundBuilder />
+
+        {/* 8. Comunidad Huankilovers & Instagram Wall */}
         <NeonWallExperience />
 
-        {/* 7. Locations (Miraflores & Surco) */}
+        {/* 9. Sede Chiclayo (Francisco Cabrera 436) */}
         <LocationsSection
-          onOpenReservationWithLocation={(locId) => handleOpenReservation(locId)}
+          onOpenReservation={() => handleOpenReservation()}
         />
 
       </main>
 
-      {/* Footer */}
-      <Footer
-        onOpenReservation={() => handleOpenReservation()}
-      />
+      {/* 10. Footer */}
+      <Footer onOpenReservation={() => handleOpenReservation()} />
 
       {/* Modals */}
       <DishDetailModal
         dish={selectedDish}
         onClose={() => setSelectedDish(null)}
-        onAddToRound={handleAddToRound}
-        isInRound={selectedDish ? roundDishes.some((d) => d.id === selectedDish.id) : false}
       />
 
       <ReservationModal
@@ -127,33 +109,37 @@ export default function App() {
         initialLocationId={reservationLocationId}
       />
 
-      {/* Floating Action Buttons: WhatsApp & Back to Top */}
-      <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3 pointer-events-auto">
-        
-        {/* WhatsApp Quick Trigger with pulsing badge */}
+      {/* Floating Bottom Quick Action Bar on Mobile */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 p-3 bg-[#140c08]/95 border-t border-[#e5aa38]/30 backdrop-blur-xl sm:hidden flex items-center gap-2">
         <a
-          href="https://wa.me/51951770377?text=Hola%20Kai-To!%20Quisiera%20hacer%20un%20pedido%20o%20reserva"
+          href="https://wa.me/51953368821"
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative flex items-center justify-center w-13 h-13 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-[0_0_25px_rgba(16,185,129,0.5)] hover:shadow-[0_0_35px_rgba(16,185,129,0.8)] hover:scale-110 active:scale-95 transition-all duration-300"
-          title="Escríbenos por WhatsApp (+51 951 770 377)"
+          className="flex-1 py-3 px-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg"
         >
-          <MessageCircle className="w-6 h-6" />
-          <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-pink-500 border-2 border-[#090b10] animate-ping" />
-          <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-pink-500 border-2 border-[#090b10]" />
+          <MessageCircle className="w-4 h-4" />
+          <span>Delivery WhatsApp</span>
         </a>
 
-        {/* Scroll To Top Button */}
-        {showScrollTop && (
-          <button
-            onClick={scrollToTop}
-            className="w-10 h-10 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/80 shadow-lg flex items-center justify-center transition-all animate-fadeIn"
-            title="Volver arriba"
-          >
-            <ArrowUp className="w-4 h-4" />
-          </button>
-        )}
+        <button
+          onClick={() => handleOpenReservation()}
+          className="flex-1 py-3 px-2 rounded-xl bg-gradient-to-r from-[#c86a3e] to-[#e5aa38] text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg"
+        >
+          <Calendar className="w-4 h-4" />
+          <span>Reservar Mesa</span>
+        </button>
       </div>
+
+      {/* Floating Back to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-20 sm:bottom-6 right-6 z-40 p-3.5 rounded-2xl bg-[#28160e]/90 border border-[#e5aa38]/40 text-[#f3be52] hover:text-white hover:bg-[#c86a3e] shadow-2xl backdrop-blur-md transition-all active:scale-95 group"
+          title="Volver arriba"
+        >
+          <ArrowUp className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform" />
+        </button>
+      )}
 
     </div>
   );

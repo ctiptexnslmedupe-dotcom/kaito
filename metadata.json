@@ -1,6 +1,6 @@
 {
-  "name": "KAI-TO Barra Fusión",
-  "description": "Sitio web moderno y vibrante para KAI-TO Barra Fusión: makis nikkei, barra libre all you can eat, locales en Miraflores y Surco, carta interactiva y reservas directas.",
+  "name": "Huanka Restaurante Café Chiclayo",
+  "description": "Restaurante Novoandino en Chiclayo: Desayunos de chicharrón, Almuerzos gourmet, Coctelería de autor, Happy Hour, Cenas románticas y Carta interactiva con reservas a WhatsApp.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

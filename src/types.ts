@@ -1,28 +1,28 @@
 export type DishCategory = 
   | 'todos'
-  | 'makis-nikkei'
-  | 'makis-flameados'
-  | 'makis-crocantes'
-  | 'entradas-alitas'
-  | 'piqueos-gyozas'
-  | 'bebidas-cocteles'
-  | 'postres';
+  | 'desayunos-huanka'
+  | 'almuerzos-novoandinos'
+  | 'risottos-criollos'
+  | 'piqueos-tablas'
+  | 'cocteleria-autor'
+  | 'cafeteria-postres';
 
 export interface Dish {
   id: string;
   name: string;
   category: DishCategory;
-  japaneseName?: string;
+  nativeOrigin?: string; // e.g. "Chiclayo • Maíz & Hierbas Andinas"
   description: string;
   ingredients: string[];
   price: number; // in PEN (S/.)
-  piecesText?: string; // e.g. "10 cortes (Tabla completa)"
+  portionText?: string; // e.g. "Plato Personal Generoso", "Para 2 a 3 personas"
   image: string;
-  tags: ('Favorito de la Casa' | 'Flameado en Mesa' | 'Picante' | 'Crocante' | 'Nuevo' | 'Acevichado' | 'Barra Libre Included' | 'De Autor')[];
+  tags: string[];
   spicyLevel?: 0 | 1 | 2 | 3;
   flavorNotes?: string;
   pairingRecommendation?: string;
-  isIncludedInBarraLibre: boolean;
+  isHouseFavorite?: boolean;
+  isBreakfastAvailable?: boolean;
 }
 
 export interface Promotion {
@@ -36,17 +36,18 @@ export interface Promotion {
   includes: string[];
   image: string;
   channel: 'Salón & Delivery' | 'Solo Salón' | 'Delivery & Para Llevar';
-  highlightColor: 'pink' | 'cyan' | 'orange' | 'yellow';
+  highlightColor: 'terracotta' | 'gold' | 'emerald' | 'berry';
+  timeSlot?: string; // e.g. "8:00 AM - 12:00 PM" o "4:00 PM - 10:00 PM"
 }
 
 export interface LocationInfo {
   id: string;
   name: string;
-  district: string;
+  city: string;
   address: string;
   reference: string;
-  hoursWeekday: string;
-  hoursWeekend: string;
+  hoursBreakfast: string;
+  hoursLunchDinner: string;
   phone: string;
   whatsapp: string;
   googleMapsEmbedUrl?: string;
@@ -68,9 +69,10 @@ export interface Testimonial {
   dateText: string;
 }
 
-export interface RoundBuilderSelection {
-  tables: Dish[];
-  complement?: Dish;
-  drinks: string[];
-  numberOfPeople: number;
+export interface CustomTableSelection {
+  mainDishes: Dish[];
+  piqueos: Dish[];
+  drinks: Dish[];
+  peopleCount: number;
 }
+

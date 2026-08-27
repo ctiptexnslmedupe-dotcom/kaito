@@ -2,99 +2,89 @@ import { Promotion } from '../types';
 
 export const PROMOTIONS_DATA: Promotion[] = [
   {
-    id: 'promo-salon-68',
-    title: 'Super Promo Salón',
-    badge: 'MÁS PEDIDA EN SALÓN',
-    price: 68.00,
-    originalPrice: 110.00,
-    subtitle: '36 Makis + 6 Alitas Nikkei',
-    description: 'La combinación favorita para compartir entre 2 a 3 personas en nuestros locales de Miraflores o Surco.',
+    id: 'promo-mananitas-huanka',
+    title: 'Mañanitas Huanka (Desayunos Criollos)',
+    badge: '★ 8:00 AM A 12:00 PM',
+    price: 24.90,
+    originalPrice: 32.00,
+    subtitle: 'El mejor despertar en Chiclayo con chicharrón y café',
+    description: 'Generosa porción de chicharrón de panceta dorada con camotito frito, salsa criolla al limón con hierbabuena, canasta de panes recién horneados y taza de café pasado de altura.',
     includes: [
-      '3 Tablas completas a elección (36 makis cortes)',
-      '1 Porción de Alitas Glaseadas Nikkei o Acevichadas (6 uds)',
-      'Salsas de la casa: Acevichada, Tare y Soya artesanal',
-      'Válido para consumo en salón de Lunes a Domingo'
+      'Panceta de cerdo crocante & tierna con camotito frito',
+      'Salsa criolla chiclayana con hierbabuena fresca',
+      'Canastita de panes artesanales calientes',
+      'Taza de Café Pasado de Altura o Jugo Natural de fruta',
     ],
-    image: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    channel: 'Salón & Delivery',
+    highlightColor: 'gold',
+    timeSlot: 'Todos los días de 8:00 AM a 12:00 PM',
+  },
+  {
+    id: 'promo-happy-hour-cocteles',
+    title: 'Happy Hour Huanka (2x S/. 30)',
+    badge: '🍹 4:00 PM A 10:00 PM',
+    price: 30.00,
+    originalPrice: 44.00,
+    subtitle: '2 Cócteles de Autor por S/. 30 + 20% Dcto en Piqueos',
+    description: 'Brindemos por nuestras raíces con los mejores cócteles de Chiclayo: Huanka Sour de Maíz Morado, Kusi Raymi Macerado Andino, Chilcano de Maracuyá o Pisco Sour Clásico.',
+    includes: [
+      '2 Cócteles a elección de nuestra carta de autor',
+      '20% de descuento en Tequeños de Lomo y Alitas',
+      'Cortesía de chanchito crocante o chifles artesanales',
+      'Ambiente con música lounge andina y buena vibra',
+    ],
+    image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80',
     channel: 'Solo Salón',
-    highlightColor: 'pink',
+    highlightColor: 'terracotta',
+    timeSlot: 'Lunes a Sábado de 4:00 PM a 10:00 PM',
   },
   {
-    id: 'promo-mega-95',
-    title: 'Combo Experiencia Completa',
-    badge: 'COMBO TODO INCLUIDO',
-    price: 95.00,
-    originalPrice: 145.00,
-    subtitle: '36 Makis + 2 Complementos + 2 Bebidas',
-    description: 'Banquete para disfrutar sin preocupaciones. Elige tus 3 tablas favoritas, 2 complementos y refrescos.',
+    id: 'promo-almuerzo-ejecutivo',
+    title: 'Menú Ejecutivo Novoandino',
+    badge: '🍽️ LUNES A VIERNES',
+    price: 22.00,
+    originalPrice: 28.00,
+    subtitle: 'Entrada criolla + Plato de Fondo gourmet + Bebida',
+    description: 'La opción predilecta de Chiclayo para el almuerzo: opciones variadas cada día preparadas al instante con insumos frescos de nuestra región y toques novoandinos.',
     includes: [
-      '3 Tablas de makis a tu elección (36 cortes)',
-      '2 Complementos a elección (12 unidades: Alitas, Gyozas o Ebi Furai)',
-      '2 Bebidas personales (Inca Kola, Coca-Cola o Chicha)',
-      'Acompañamientos y dips completos'
+      'Entrada: Tamalito Verde, Sopa Criolla o Ensalada Fresca',
+      'Fondo: Risotto al Ají Amarillo, Lomo Saltado o Seco de Pollo',
+      'Vaso de Chicha Morada artesanal o Refresco del día',
+      'Postre de cortesía según disponibilidad de cocina',
     ],
-    image: 'https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
     channel: 'Salón & Delivery',
-    highlightColor: 'cyan',
+    highlightColor: 'emerald',
+    timeSlot: 'Lunes a Viernes de 12:30 PM a 4:00 PM',
   },
   {
-    id: 'promo-delivery-box-59',
-    title: 'Kaito Box Delivery',
-    badge: 'OFERTA DELIVERY & TAKE AWAY',
-    price: 59.90,
-    originalPrice: 98.00,
-    subtitle: '36 Makis + 1 Complemento en Box Especial',
-    description: 'Empacado con tecnología térmica para que tus makis y piqueos lleguen crujientes y frescos a tu casa.',
+    id: 'promo-cena-romantica',
+    title: 'Experiencia Cena Romántica',
+    badge: '✨ PAREJAS & ANIVERSARIOS',
+    price: 129.00,
+    originalPrice: 165.00,
+    subtitle: 'Mesa con velitas, flores andinas y menú a 3 tiempos',
+    description: 'Celebra un momento inolvidable con tu persona favorita en un ambiente cálido e íntimo en nuestra sede de Francisco Cabrera 436.',
     includes: [
-      '3 Tablas de makis seleccionados (36 cortes)',
-      '1 Complemento (6 unidades)',
-      'Palitos de bambú, jengibre encurtido gari y wasabi',
-      'Packs herméticos con salsas selladas'
+      'Decoración de mesa con velas, flores secas y pétalos',
+      '1 Piqueo o Entrada para compartir (Tequeños o Tabla)',
+      '2 Platos de Fondo a la carta (Risottos, Lomo o Pato)',
+      '2 Cócteles de Autor o Botella de Vino seleccionado',
+      '1 Postre especial para dos con dedicatoria',
     ],
-    image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80',
-    channel: 'Delivery & Para Llevar',
-    highlightColor: 'orange',
+    image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80',
+    channel: 'Solo Salón',
+    highlightColor: 'berry',
+    timeSlot: 'Previa reserva nocturna',
   },
-  {
-    id: 'promo-duo-69',
-    title: 'Dúo Express Kaito',
-    badge: 'IDEAL PARA DOS',
-    price: 69.00,
-    originalPrice: 95.00,
-    subtitle: '24 Cortes (4 Medios Makis) + 1 Complemento',
-    description: 'Perfecto para probar mayor variedad de sabores en porciones balanceadas.',
-    includes: [
-      '4 Medios makis de sabores distintos (24 cortes)',
-      '1 Porción de Gyozas fritas o Ebi Furai (6 uds)',
-      'Jarra personal de Chicha Morada',
-      'Atención personalizada en barra'
-    ],
-    image: 'https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=800&q=80',
-    channel: 'Salón & Delivery',
-    highlightColor: 'yellow',
-  }
 ];
 
-export const BARRA_LIBRE_FEATURES = {
-  pricePerPerson: 59.90,
-  priceWeekend: 64.90,
-  rules: [
-    {
-      title: 'Rondas sin límite',
-      description: 'Pide rondas de makis y complementos seleccionados tantas veces como desees durante tu turno.'
-    },
-    {
-      title: 'Consumo responsable',
-      description: 'Para evitar desperdicio de comida, cada ronda debe terminarse antes de ordenar la siguiente. (Corte no consumido tiene recargo de S/. 2).'
-    },
-    {
-      title: 'Mesa completa',
-      description: 'La modalidad de Barra Libre aplica para todos los comensales sentados en la misma mesa.'
-    },
-    {
-      title: 'Tiempo de experiencia',
-      description: '90 minutos de pura degustación ilimitada con servicio continuo directo de barra.'
-    }
-  ],
-  includedDishesCount: 22
+export const HUANKA_EXPERIENCES = {
+  name: 'Huanka Restaurante Café',
+  location: 'Francisco Cabrera 436, Chiclayo',
+  phoneWhatsapp: '+51 953 368 821',
+  instagram: '@huanka.restaurante',
+  mascot: 'Huankita (Mazorca Andina Tejida)',
+  tagline: 'Restaurante Novoandino en Chiclayo • Desayunos, Almuerzos y Coctelería',
 };

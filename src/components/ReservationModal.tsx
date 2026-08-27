@@ -9,7 +9,9 @@ import {
   MessageCircle, 
   CheckCircle2, 
   Flame, 
-  PartyPopper 
+  Heart,
+  Coffee,
+  Wine
 } from 'lucide-react';
 import { LOCATIONS_DATA } from '../data/locationsData';
 
@@ -22,279 +24,248 @@ interface ReservationModalProps {
 export const ReservationModal: React.FC<ReservationModalProps> = ({
   isOpen,
   onClose,
-  initialLocationId = 'miraflores'
+  initialLocationId = 'huanka-chiclayo-principal'
 }) => {
   if (!isOpen) return null;
 
-  const [locationId, setLocationId] = useState<string>(initialLocationId);
   const [name, setName] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [guests, setGuests] = useState<number>(2);
   const [date, setDate] = useState<string>(
     new Date().toISOString().split('T')[0]
   );
-  const [timeSlot, setTimeSlot] = useState<string>('20:00');
-  const [experience, setExperience] = useState<'barra-libre' | 'carta' | 'cumpleanos'>('barra-libre');
+  const [timeSlot, setTimeSlot] = useState<string>('13:30');
+  const [experience, setExperience] = useState<'desayuno' | 'almuerzo' | 'happy-hour' | 'cena-romantica' | 'cumpleanos'>('almuerzo');
   const [notes, setNotes] = useState<string>('');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
-  const selectedLoc = LOCATIONS_DATA.find((l) => l.id === locationId) || LOCATIONS_DATA[0];
+  const selectedLoc = LOCATIONS_DATA[0];
 
   const timeOptions = [
-    '12:30 PM', '01:30 PM', '02:30 PM', '03:30 PM',
-    '07:00 PM', '07:45 PM', '08:30 PM', '09:15 PM', '10:00 PM'
+    '08:30 AM', '09:30 AM', '10:30 AM', '11:30 AM',
+    '01:00 PM', '02:00 PM', '03:00 PM',
+    '05:00 PM', '06:30 PM', '08:00 PM', '09:00 PM'
   ];
 
   const handleWhatsAppBooking = () => {
-    const expText = 
-      experience === 'barra-libre' ? '🔥 BARRA LIBRE ALL YOU CAN EAT' :
-      experience === 'cumpleanos' ? '🎂 CELEBRACIÓN DE CUMPLEAÑOS' : '🍱 CARTA ABIERTA & COMBOS';
+    const expMap = {
+      'desayuno': '☀️ Desayuno de Chicharrón & Café Pasado (8am - 12pm)',
+      'almuerzo': '🍽️ Almuerzo Novoandino a la Carta / Menú Ejecutivo',
+      'happy-hour': '🍹 Happy Hour 2x30 en Cócteles & Piqueos (4pm - 10pm)',
+      'cena-romantica': '✨ Experiencia Cena Romántica con Velas & Flores',
+      'cumpleanos': '🎂 Celebración de Cumpleaños / Grupo de Amigos',
+    };
+
+    const expText = expMap[experience];
 
     const message = 
-      `🏮 *SOLICITUD DE RESERVA EN KAI-TO* 🏮\n\n` +
-      `📍 *Sede:* ${selectedLoc.name} (${selectedLoc.address})\n` +
+      `🌽 *RESERVA DE MESA EN HUANKA CHICLAYO* 🌽\n\n` +
+      `📍 *Sede:* Calle Francisco Cabrera 436, Chiclayo\n` +
       `👤 *Nombre:* ${name.trim() || 'Cliente'}\n` +
       `📱 *Teléfono:* ${phone.trim() || 'No especificado'}\n` +
       `👥 *Comensales:* ${guests} personas\n` +
       `📅 *Fecha:* ${date}\n` +
       `⏰ *Hora:* ${timeSlot}\n` +
       `✨ *Experiencia:* ${expText}\n` +
-      (notes.trim() ? `📝 *Notas / Cumpleañero:* ${notes}\n\n` : '\n') +
-      `¿Podrían confirmarme la reserva por favor? ¡Muchas gracias!`;
+      (notes.trim() ? `📝 *Detalles / Notas:* ${notes.trim()}\n` : '') +
+      `\n_Por favor confirmar disponibilidad de mesa._`;
 
-    const url = `https://wa.me/51951770377?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+    const encoded = encodeURIComponent(message);
+    const waUrl = `https://wa.me/51953368821?text=${encoded}`;
+
     setIsSuccess(true);
+    setTimeout(() => {
+      window.open(waUrl, '_blank');
+    }, 400);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
-      
-      {/* Background click to close */}
-      <div className="absolute inset-0" onClick={onClose} />
-
-      <div className="relative w-full max-w-xl bg-gradient-to-b from-[#111522] via-[#0d101a] to-[#090b10] rounded-3xl border border-pink-500/40 shadow-[0_0_50px_rgba(236,72,153,0.3)] overflow-hidden z-10 max-h-[92vh] flex flex-col">
-        
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/80 backdrop-blur-xl animate-in fade-in duration-300">
+      <div 
+        className="relative w-full max-w-xl rounded-3xl bg-[#1c110b] border border-[#e5aa38]/40 shadow-2xl p-6 sm:p-8 text-white overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 flex items-center justify-center transition-all"
+          className="absolute top-5 right-5 p-2 rounded-xl bg-[#28160e] text-[#dec3b3] hover:text-white hover:bg-[#3d2015] transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* Modal Header */}
-        <div className="p-6 sm:p-8 pb-4 border-b border-slate-800/80">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="font-jp text-pink-400 font-bold">海人</span>
-            <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded bg-pink-500/20 text-pink-400 border border-pink-500/30">
-              Reserva Oficial
-            </span>
-          </div>
-
-          <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-white">
-            Reserva tu Mesa en <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-amber-300">Kai-To</span>
-          </h3>
-          <p className="text-xs text-slate-400">
-            Asegura tu lugar para Barra Libre, cumpleaños o una cena única en Miraflores o Surco.
-          </p>
-        </div>
-
-        {/* Form Body */}
-        <div className="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1">
-          
-          {isSuccess ? (
-            <div className="py-8 text-center space-y-4">
-              <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500 text-emerald-400 flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-                <CheckCircle2 className="w-8 h-8" />
-              </div>
-              <h4 className="font-display text-xl font-bold text-white">¡Solicitud enviada a WhatsApp!</h4>
-              <p className="text-xs text-slate-300 max-w-sm mx-auto">
-                Tu mensaje con todos los datos fue preparado y enviado. Nuestro anfitrión te confirmará la mesa en breves minutos.
-              </p>
-              <button
-                onClick={() => {
-                  setIsSuccess(false);
-                  onClose();
-                }}
-                className="px-6 py-2.5 rounded-xl text-xs font-bold bg-slate-800 text-white hover:bg-slate-700"
-              >
-                Cerrar Ventana
-              </button>
+        {isSuccess ? (
+          <div className="text-center py-10 space-y-4 animate-in zoom-in-95 duration-300">
+            <div className="w-16 h-16 rounded-full bg-emerald-950/80 border border-emerald-500/50 text-emerald-400 flex items-center justify-center mx-auto">
+              <CheckCircle2 className="w-8 h-8" />
             </div>
-          ) : (
-            <>
-              {/* Step 1: Location Selector */}
+            <h3 className="font-display text-2xl font-bold text-white">
+              ¡Redirigiendo a WhatsApp de Huanka!
+            </h3>
+            <p className="text-xs text-[#dec3b3] max-w-md mx-auto">
+              Tu solicitud ha sido formateada con todos los detalles para nuestro equipo en Francisco Cabrera 436, Chiclayo.
+            </p>
+            <button
+              onClick={() => {
+                setIsSuccess(false);
+                onClose();
+              }}
+              className="px-6 py-2.5 rounded-xl bg-[#28160e] text-xs font-bold text-[#f7efe6] hover:bg-[#3d2015] transition-all"
+            >
+              Cerrar Ventana
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            
+            {/* Header */}
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#e5aa38]/15 border border-[#e5aa38]/30 text-[#f3be52] text-[10px] font-bold uppercase tracking-widest mb-2">
+                <Sparkles className="w-3 h-3" />
+                <span>FRANCISCO CABRERA 436 • CHICLAYO</span>
+              </div>
+              <h2 className="font-display text-2xl sm:text-3xl font-black text-white">
+                RESERVA TU MESA EN HUANKA
+              </h2>
+              <p className="text-xs text-[#dec3b3]">
+                Atención personalizada sin costo de reserva previa.
+              </p>
+            </div>
+
+            {/* Form */}
+            <div className="space-y-4">
+              
+              {/* Experience Selector */}
               <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-2 flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-pink-400" />
-                  1. Selecciona la Sede:
+                <label className="text-xs font-bold text-[#dec3b3] uppercase tracking-wider block mb-2">
+                  Tipo de Experiencia
                 </label>
-                <div className="grid grid-cols-2 gap-3">
-                  {LOCATIONS_DATA.map((loc) => (
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {[
+                    { id: 'desayuno', label: 'Desayuno (8am-12pm)', icon: '☀️' },
+                    { id: 'almuerzo', label: 'Almuerzo Novoandino', icon: '🍽️' },
+                    { id: 'happy-hour', label: 'Happy Hour (2x30)', icon: '🍹' },
+                    { id: 'cena-romantica', label: 'Cena Romántica', icon: '✨' },
+                    { id: 'cumpleanos', label: 'Cumpleaños', icon: '🎂' },
+                  ].map((exp) => (
                     <button
-                      key={loc.id}
+                      key={exp.id}
                       type="button"
-                      onClick={() => setLocationId(loc.id)}
-                      className={`p-3 rounded-2xl border text-left transition-all ${
-                        locationId === loc.id
-                          ? 'bg-pink-500/20 border-pink-500 text-white shadow-[0_0_15px_rgba(236,72,153,0.3)]'
-                          : 'bg-slate-800/40 border-slate-700/60 text-slate-400 hover:text-slate-200'
+                      onClick={() => setExperience(exp.id as any)}
+                      className={`p-2 rounded-xl text-xs font-bold transition-all text-left flex items-center gap-1.5 ${
+                        experience === exp.id
+                          ? 'bg-gradient-to-r from-[#c86a3e] to-[#e5aa38] text-white shadow-md'
+                          : 'bg-[#28160e] text-[#dec3b3] hover:text-white border border-[#3d2015]'
                       }`}
                     >
-                      <strong className="block text-xs sm:text-sm font-bold text-white mb-0.5">{loc.name}</strong>
-                      <span className="text-[10px] text-slate-400 block truncate">{loc.address}</span>
+                      <span>{exp.icon}</span>
+                      <span className="truncate">{exp.label}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Step 2: Experience Selector */}
-              <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-2 flex items-center gap-1.5">
-                  <Flame className="w-3.5 h-3.5 text-amber-400" />
-                  2. Tipo de Experiencia:
-                </label>
-                <div className="grid grid-cols-3 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setExperience('barra-libre')}
-                    className={`p-2.5 rounded-xl text-xs font-semibold border transition-all text-center ${
-                      experience === 'barra-libre'
-                        ? 'bg-pink-500 text-white border-pink-400 shadow-md'
-                        : 'bg-slate-800/40 text-slate-400 border-slate-700'
-                    }`}
-                  >
-                    Barra Libre (S/. 59.90)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setExperience('carta')}
-                    className={`p-2.5 rounded-xl text-xs font-semibold border transition-all text-center ${
-                      experience === 'carta'
-                        ? 'bg-pink-500 text-white border-pink-400 shadow-md'
-                        : 'bg-slate-800/40 text-slate-400 border-slate-700'
-                    }`}
-                  >
-                    Carta & Combos
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setExperience('cumpleanos')}
-                    className={`p-2.5 rounded-xl text-xs font-semibold border transition-all text-center ${
-                      experience === 'cumpleanos'
-                        ? 'bg-pink-500 text-white border-pink-400 shadow-md'
-                        : 'bg-slate-800/40 text-slate-400 border-slate-700'
-                    }`}
-                  >
-                    Cumpleaños 🎉
-                  </button>
+              {/* Name & Phone */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-semibold text-[#dec3b3] block mb-1">
+                    Nombre Completo
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Ej. Carmen Flores"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#28160e] border border-[#3d2015] focus:border-[#e5aa38] text-xs text-white placeholder-[#8c6b5a] outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-semibold text-[#dec3b3] block mb-1">
+                    Teléfono / WhatsApp
+                  </label>
+                  <input
+                    type="tel"
+                    placeholder="Ej. 953 123 456"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#28160e] border border-[#3d2015] focus:border-[#e5aa38] text-xs text-white placeholder-[#8c6b5a] outline-none"
+                  />
                 </div>
               </div>
 
-              {/* Step 3: Date, Time, Guests */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {/* Guests */}
+              {/* Guests, Date, Time */}
+              <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="text-[11px] font-bold text-slate-400 block mb-1">Comensales</label>
+                  <label className="text-xs font-semibold text-[#dec3b3] block mb-1">
+                    Personas
+                  </label>
                   <select
                     value={guests}
                     onChange={(e) => setGuests(Number(e.target.value))}
-                    className="w-full px-3 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs font-medium text-white focus:outline-none focus:border-pink-500"
+                    className="w-full px-3 py-2.5 rounded-xl bg-[#28160e] border border-[#3d2015] focus:border-[#e5aa38] text-xs text-white outline-none"
                   >
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 15, 20].map((n) => (
-                      <option key={n} value={n} className="bg-slate-900">
-                        {n} {n === 1 ? 'Persona' : 'Personas'}
-                      </option>
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 10, 15, 20].map(n => (
+                      <option key={n} value={n} className="bg-[#1c110b]">{n} {n === 1 ? 'persona' : 'personas'}</option>
                     ))}
                   </select>
                 </div>
 
-                {/* Date */}
                 <div>
-                  <label className="text-[11px] font-bold text-slate-400 block mb-1">Fecha</label>
+                  <label className="text-xs font-semibold text-[#dec3b3] block mb-1">
+                    Fecha
+                  </label>
                   <input
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs font-medium text-white focus:outline-none focus:border-pink-500"
+                    className="w-full px-3 py-2 rounded-xl bg-[#28160e] border border-[#3d2015] focus:border-[#e5aa38] text-xs text-white outline-none"
                   />
                 </div>
 
-                {/* Time */}
                 <div>
-                  <label className="text-[11px] font-bold text-slate-400 block mb-1">Horario</label>
+                  <label className="text-xs font-semibold text-[#dec3b3] block mb-1">
+                    Hora
+                  </label>
                   <select
                     value={timeSlot}
                     onChange={(e) => setTimeSlot(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs font-medium text-white focus:outline-none focus:border-pink-500"
+                    className="w-full px-3 py-2.5 rounded-xl bg-[#28160e] border border-[#3d2015] focus:border-[#e5aa38] text-xs text-white outline-none"
                   >
-                    {timeOptions.map((t) => (
-                      <option key={t} value={t} className="bg-slate-900">
-                        {t}
-                      </option>
+                    {timeOptions.map(t => (
+                      <option key={t} value={t} className="bg-[#1c110b]">{t}</option>
                     ))}
                   </select>
                 </div>
               </div>
 
-              {/* Step 4: Contact Info */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="text-[11px] font-bold text-slate-400 block mb-1">Nombre Completo</label>
-                  <input
-                    type="text"
-                    placeholder="Ej. Carlos Silva"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-pink-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-bold text-slate-400 block mb-1">Teléfono / WhatsApp</label>
-                  <input
-                    type="tel"
-                    placeholder="Ej. 951 770 377"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-pink-500"
-                  />
-                </div>
-              </div>
-
-              {/* Special Requests */}
+              {/* Notes */}
               <div>
-                <label className="text-[11px] font-bold text-slate-400 block mb-1">
-                  Peticiones Especiales / Cumpleañero (Opcional)
+                <label className="text-xs font-semibold text-[#dec3b3] block mb-1">
+                  Notas Especiales (Opcional)
                 </label>
                 <input
                   type="text"
-                  placeholder="Ej. 'Mesa cerca a la pared de neón', 'Es mi cumpleaños', etc."
+                  placeholder="Ej. Mesa cerca a la ventana, aniversario, decoración..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-pink-500"
+                  className="w-full px-3.5 py-2 rounded-xl bg-[#28160e] border border-[#3d2015] focus:border-[#e5aa38] text-xs text-white placeholder-[#8c6b5a] outline-none"
                 />
               </div>
-            </>
-          )}
 
-        </div>
-
-        {/* Modal Footer CTA */}
-        {!isSuccess && (
-          <div className="p-6 bg-[#0c0f17] border-t border-slate-800 flex items-center justify-between gap-3">
-            <div className="text-[11px] text-slate-400">
-              Confirmación inmediata vía <strong className="text-emerald-400">WhatsApp</strong>
             </div>
 
-            <button
-              onClick={handleWhatsAppBooking}
-              className="px-6 py-3.5 rounded-xl font-display text-xs font-bold uppercase tracking-wider text-white bg-gradient-to-r from-pink-600 via-rose-500 to-amber-500 hover:from-pink-500 hover:to-amber-400 shadow-[0_0_20px_rgba(236,72,153,0.4)] flex items-center gap-2"
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span>Confirmar Reserva por WhatsApp</span>
-            </button>
+            {/* Submit to WhatsApp */}
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={handleWhatsAppBooking}
+                className="w-full py-4 rounded-2xl font-display text-xs sm:text-sm font-bold uppercase tracking-wider text-white bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 shadow-[0_0_25px_rgba(16,185,129,0.35)] transition-all flex items-center justify-center gap-2"
+              >
+                <MessageCircle className="w-5 h-5 text-white" />
+                <span>Confirmar Reserva a WhatsApp (+51 953 368 821)</span>
+              </button>
+            </div>
+
           </div>
         )}
 
