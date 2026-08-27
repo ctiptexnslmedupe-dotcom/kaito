@@ -1,78 +1,56 @@
-export type DishCategory = 
-  | 'todos'
-  | 'desayunos-huanka'
-  | 'almuerzos-novoandinos'
-  | 'risottos-criollos'
-  | 'piqueos-tablas'
-  | 'cocteleria-autor'
-  | 'cafeteria-postres';
-
 export interface Dish {
   id: string;
   name: string;
-  category: DishCategory;
-  nativeOrigin?: string; // e.g. "Chiclayo • Maíz & Hierbas Andinas"
+  category: 'barra-libre' | 'makis' | 'nigiris' | 'ceviches-tiraditos' | 'calientes' | 'cocteles-bebidas' | 'postres';
   description: string;
-  ingredients: string[];
-  price: number; // in PEN (S/.)
-  portionText?: string; // e.g. "Plato Personal Generoso", "Para 2 a 3 personas"
+  price: number;
   image: string;
   tags: string[];
   spicyLevel?: 0 | 1 | 2 | 3;
-  flavorNotes?: string;
+  isVegetarian?: boolean;
+  isSignature?: boolean;
+  isGlutenFree?: boolean;
+  piecesCount?: number;
+  ingredients: string[];
   pairingRecommendation?: string;
-  isHouseFavorite?: boolean;
-  isBreakfastAvailable?: boolean;
-}
-
-export interface Promotion {
-  id: string;
-  title: string;
-  badge: string;
-  price: number;
-  originalPrice?: number;
-  subtitle: string;
-  description: string;
-  includes: string[];
-  image: string;
-  channel: 'Salón & Delivery' | 'Solo Salón' | 'Delivery & Para Llevar';
-  highlightColor: 'terracotta' | 'gold' | 'emerald' | 'berry';
-  timeSlot?: string; // e.g. "8:00 AM - 12:00 PM" o "4:00 PM - 10:00 PM"
+  flavorNotes?: string;
 }
 
 export interface LocationInfo {
   id: string;
   name: string;
-  city: string;
+  district: string;
   address: string;
   reference: string;
-  hoursBreakfast: string;
-  hoursLunchDinner: string;
   phone: string;
   whatsapp: string;
-  googleMapsEmbedUrl?: string;
-  googleMapsLink: string;
-  photos: string[];
+  hoursWeekday: string;
+  hoursWeekend: string;
+  isBuffetAvailable: boolean;
   features: string[];
-  ambiance: string;
+  googleMapsEmbedUrl: string;
+  googleMapsLink: string;
+  image: string;
 }
 
 export interface Testimonial {
   id: string;
   name: string;
-  instagram: string;
-  avatar: string;
+  role?: string;
   rating: number;
   comment: string;
   favoriteDish: string;
-  verifiedVisit: boolean;
-  dateText: string;
+  instagram?: string;
 }
 
-export interface CustomTableSelection {
-  mainDishes: Dish[];
-  piqueos: Dish[];
-  drinks: Dish[];
-  peopleCount: number;
+export interface PromoBanner {
+  id: string;
+  title: string;
+  subtitle: string;
+  tag: string;
+  price: string;
+  description: string;
+  image: string;
+  badge: string;
+  terms: string;
 }
-
