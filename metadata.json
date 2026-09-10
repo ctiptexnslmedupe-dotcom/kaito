@@ -1,6 +1,6 @@
 {
-  "name": "KAI-TO Barra Fusión",
-  "description": "Sitio web moderno y vibrante para KAI-TO Barra Fusión: makis nikkei, barra libre all you can eat, locales en Miraflores y Surco, carta interactiva y reservas directas.",
+  "name": "Google Maps Profile Optimizer - Sabor y Sazón",
+  "description": "Simulador interactivo de ficha de Google Maps optimizada para restaurantes y negocios locales, con comparativa Antes/Después, publicaciones, menú y guiones de venta.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
