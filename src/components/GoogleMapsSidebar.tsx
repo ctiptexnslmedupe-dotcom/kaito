@@ -29,10 +29,12 @@ import {
   AlertCircle,
   Volume2,
   RefreshCw,
-  Eye
+  Eye,
+  CheckSquare
 } from 'lucide-react';
 import { BusinessProfile, SocialPost, MenuItem, ReviewItem } from '../types';
 import { MENU_ITEMS, REVIEWS_LIST } from '../data/mapsData';
+import { CierreSeguroCard } from './CierreSeguroCard';
 
 interface GoogleMapsSidebarProps {
   profile: BusinessProfile;
@@ -42,9 +44,10 @@ interface GoogleMapsSidebarProps {
   onOpenPhotoGallery: (index?: number) => void;
   onTriggerDirections?: () => void;
   onOpenCustomizer?: () => void;
+  onOpenPitchModal?: () => void;
 }
 
-type TabType = 'overview' | 'posts' | 'menu' | 'reviews' | 'photos' | 'script';
+type TabType = 'cierre' | 'overview' | 'posts' | 'menu' | 'reviews' | 'photos' | 'script';
 
 export const GoogleMapsSidebar: React.FC<GoogleMapsSidebarProps> = ({
   profile,
@@ -54,8 +57,9 @@ export const GoogleMapsSidebar: React.FC<GoogleMapsSidebarProps> = ({
   onOpenPhotoGallery,
   onTriggerDirections,
   onOpenCustomizer,
+  onOpenPitchModal,
 }) => {
-  const [activeTab, setActiveTab] = useState<TabType>('overview');
+  const [activeTab, setActiveTab] = useState<TabType>('cierre');
   const [isHoursOpen, setIsHoursOpen] = useState(false);
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
   const [activeMenuCategory, setActiveMenuCategory] = useState<string>('todos');
@@ -92,7 +96,7 @@ export const GoogleMapsSidebar: React.FC<GoogleMapsSidebarProps> = ({
       id: 'post-3',
       badge: '3. POST DE CONFIANZA & VALOR',
       headline: 'Sabor, calidad y el mejor precio del barrio ❤️',
-      copy: 'Sabor, calidad y el mejor precio de la zona. En Sabor y Sazón cocinamos con amor para que tú disfrutes cada bocado. ¡Te esperamos hoy! ❤️',
+      copy: 'Sabor, calidad y el mejor precio de la zona. En Sabor y Sazón cocinamos con amor para que tú disfrutes cada bocado. ¡Te esperamos hoy con los brazos abiertos! ❤️',
       ctaText: 'Cómo Llegar al Local',
       image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80',
       tags: ['#CalidadGarantizada', '#SaborYSazon', '#ElMejorPrecio', '#HechoConAmor'],
@@ -100,7 +104,7 @@ export const GoogleMapsSidebar: React.FC<GoogleMapsSidebarProps> = ({
   ];
 
   // Dynamic Sales Script based on user's exact template
-  const dynamicSalesScript = `¡Hola! Gracias por escribirnos a Sabor y Sazón 🍲. Con gusto te ayudamos. Hoy tenemos ${selectedStarDish}. ¿Te gustaría hacer un pedido para delivery o prefieres visitarnos en el local? ¡Te esperamos!`;
+  const dynamicSalesScript = `¡Hola! Gracias por escribirnos a Sabor y Sazón 🍲. Con gusto te ayudamos. Hoy tenemos nuestro exquisito ${selectedStarDish} como plato del día. ¿Te gustaría hacer un pedido para delivery o prefieres visitarnos en el local? ¡Te esperamos!`;
 
   const [simulatedChatMessages, setSimulatedChatMessages] = useState<
     { sender: 'user' | 'bot'; text: string; time: string }[]
@@ -173,7 +177,7 @@ export const GoogleMapsSidebar: React.FC<GoogleMapsSidebarProps> = ({
   return (
     <aside className="w-full md:w-[410px] lg:w-[450px] xl:w-[480px] h-[calc(100vh-61px)] bg-white border-r border-gray-200 shadow-xl overflow-y-auto flex flex-col shrink-0 z-20 transition-all font-sans text-gray-800">
       
-      {/* 1. Cover Photos Header (Clickable to open Fullscreen Gallery) */}
+      {/* 1. Cover Photos Header (1. Foto Impactante arriba de todo) */}
       <div 
         onClick={() => onOpenPhotoGallery(0)}
         className="relative h-48 sm:h-52 w-full bg-gray-900 shrink-0 group overflow-hidden cursor-pointer"
@@ -184,7 +188,7 @@ export const GoogleMapsSidebar: React.FC<GoogleMapsSidebarProps> = ({
           alt={profile.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
 
         {/* Top Badges */}
         <div className="absolute top-3 left-3 flex items-center gap-2">
@@ -203,7 +207,7 @@ export const GoogleMapsSidebar: React.FC<GoogleMapsSidebarProps> = ({
 
         {/* Total Photos Tag */}
         <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-lg text-xs font-semibold bg-black/75 text-white backdrop-blur-sm border border-white/20 flex items-center gap-1.5 hover:bg-black/95">
-          <Camera className="w-3.5 h-3.5 text-blue-400" />
+          <Camera className="w-3.5 h-3.5 text-amber-400" />
           <span>Ver {isOptimized ? '84 fotos' : '1 foto'} HD</span>
         </div>
 
@@ -360,6 +364,20 @@ export const GoogleMapsSidebar: React.FC<GoogleMapsSidebarProps> = ({
 
       {/* 4. Google Maps Tabs Bar */}
       <div className="flex items-center border-b border-gray-200 px-2 overflow-x-auto scrollbar-none bg-white sticky top-0 z-10">
+        
+        {/* Tab 0: Cierre Seguro ✨ (New 5-Minute Sales Pitch Tab) */}
+        <button
+          onClick={() => setActiveTab('cierre')}
+          className={`py-3 px-3 text-xs font-black border-b-2 whitespace-nowrap flex items-center gap-1.5 transition-colors ${
+            activeTab === 'cierre'
+              ? 'border-amber-500 text-amber-700 bg-amber-50/50'
+              : 'border-transparent text-amber-800 hover:text-amber-950'
+          }`}
+        >
+          <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
+          <span>Cierre Seguro ✨</span>
+        </button>
+
         <button
           onClick={() => setActiveTab('overview')}
           className={`py-3 px-3 text-xs font-bold border-b-2 whitespace-nowrap transition-colors ${
@@ -381,7 +399,7 @@ export const GoogleMapsSidebar: React.FC<GoogleMapsSidebarProps> = ({
         >
           <span>3 Posts Antojo</span>
           {isOptimized && (
-            <span className="px-1.5 py-0.2 rounded-full bg-red-500 text-white text-[9px] font-black animate-pulse">
+            <span className="px-1.5 py-0.2 rounded-full bg-red-500 text-white text-[9px] font-black">
               3
             </span>
           )}
@@ -436,16 +454,69 @@ export const GoogleMapsSidebar: React.FC<GoogleMapsSidebarProps> = ({
       {/* 5. Tab Content Area */}
       <div className="flex-1 p-4 sm:p-5 space-y-6 overflow-y-auto">
         
+        {/* ================= TAB: CIERRE SEGURO (5 MINUTOS) ================= */}
+        {activeTab === 'cierre' && (
+          <div className="space-y-4 animate-in fade-in duration-200">
+            <CierreSeguroCard
+              onOpenGallery={() => onOpenPhotoGallery(0)}
+              onOpenPitch={onOpenPitchModal}
+            />
+
+            {/* Quick action buttons for the presenter */}
+            <div className="grid grid-cols-2 gap-2 pt-2">
+              <button
+                onClick={() => setActiveTab('posts')}
+                className="p-2.5 rounded-xl border border-blue-200 bg-blue-50/80 hover:bg-blue-100 text-blue-900 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <span>Ver los 3 Posts Antojo</span>
+                <Flame className="w-3.5 h-3.5 text-orange-500" />
+              </button>
+              
+              <button
+                onClick={() => setActiveTab('script')}
+                className="p-2.5 rounded-xl border border-purple-200 bg-purple-50/80 hover:bg-purple-100 text-purple-900 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <span>Ver Guion de Cierre</span>
+                <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* ================= TAB: OVERVIEW ================= */}
         {activeTab === 'overview' && (
           <div className="space-y-5 animate-in fade-in duration-200">
             
+            {/* Direct 3 Benefits Checklist Card */}
+            {isOptimized && (
+              <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5 text-xs text-emerald-950">
+                <span className="font-extrabold uppercase tracking-wide text-[10px] text-emerald-800 flex items-center gap-1">
+                  <CheckSquare className="w-3.5 h-3.5" />
+                  <span>Beneficios Clave del Perfil Optimizado:</span>
+                </span>
+                <ul className="space-y-1 font-medium">
+                  <li className="flex items-center gap-1.5">
+                    <span className="text-emerald-600 font-bold">✅</span>
+                    <span><strong>Mayor visibilidad en Google</strong> frente a otros locales.</span>
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    <span className="text-emerald-600 font-bold">✅</span>
+                    <span><strong>Textos que generan antojo</strong> y provocan hambre de inmediato.</span>
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    <span className="text-emerald-600 font-bold">✅</span>
+                    <span><strong>Imagen profesional y confiable</strong> con fotos de alta calidad.</span>
+                  </li>
+                </ul>
+              </div>
+            )}
+
             {/* Description Box (Exact Copy from User) */}
             <div className="p-4 rounded-2xl bg-blue-50/80 border border-blue-200/80 text-gray-800 space-y-3 shadow-xs">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-blue-800 flex items-center gap-1.5">
                   <Sparkles className="w-4 h-4 text-blue-600" />
-                  <span>Descripción Oficial Optimizada</span>
+                  <span>Descripción Profesional Redactada</span>
                 </span>
                 <div className="flex items-center gap-2">
                   <button
@@ -626,9 +697,9 @@ export const GoogleMapsSidebar: React.FC<GoogleMapsSidebarProps> = ({
               <div className="flex flex-wrap gap-1.5 pt-1">
                 {[
                   'Seco de Res con Frejoles',
+                  'Pollo Dorado a la Leña',
                   'Lomo Saltado al Wok',
                   'Ají de Gallina Cremoso',
-                  'Arroz con Pollo Criollo',
                 ].map((dish) => (
                   <button
                     key={dish}
@@ -771,7 +842,7 @@ export const GoogleMapsSidebar: React.FC<GoogleMapsSidebarProps> = ({
                   Cambiar plato del día en el guion:
                 </span>
                 <div className="flex flex-wrap gap-1">
-                  {['Seco de Res con Frejoles', 'Lomo Saltado Jugoso', 'Ají de Gallina', 'Arroz con Pollo'].map((d) => (
+                  {['Pollo Dorado Criollo', 'Seco de Res con Frejoles', 'Lomo Saltado Jugoso', 'Ají de Gallina'].map((d) => (
                     <button
                       key={d}
                       onClick={() => onSelectStarDish(d)}
@@ -996,13 +1067,18 @@ export const GoogleMapsSidebar: React.FC<GoogleMapsSidebarProps> = ({
                     {rev.comment}
                   </p>
 
-                  {/* Owner Response */}
                   {rev.response && (
-                    <div className="p-3 rounded-lg bg-gray-50 border-l-2 border-blue-600 text-xs text-gray-700 space-y-1">
-                      <span className="font-bold text-blue-800 text-[11px] block">
-                        Respuesta del propietario ({rev.response.date}):
-                      </span>
-                      <p className="italic">{rev.response.text}</p>
+                    <div className="p-3 rounded-lg bg-blue-50/50 border border-blue-100 text-xs text-blue-950 space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-[11px] text-blue-900 flex items-center gap-1">
+                          <CheckCircle2 className="w-3 h-3 text-blue-600" />
+                          <span>{rev.response.ownerName}</span>
+                        </span>
+                        <span className="text-[10px] text-gray-400">{rev.response.date}</span>
+                      </div>
+                      <p className="text-[11px] text-gray-700 italic">
+                        "{rev.response.text}"
+                      </p>
                     </div>
                   )}
                 </div>
@@ -1015,39 +1091,25 @@ export const GoogleMapsSidebar: React.FC<GoogleMapsSidebarProps> = ({
         {/* ================= TAB: PHOTOS ================= */}
         {activeTab === 'photos' && (
           <div className="space-y-4 animate-in fade-in duration-200">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-gray-700">
-                Galería de Fotos ({profile.coverPhotos.length})
-              </span>
-              <button
-                onClick={() => onOpenPhotoGallery(0)}
-                className="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1"
-              >
-                <Eye className="w-3.5 h-3.5" />
-                <span>Ver Pantalla Completa</span>
-              </button>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-2 gap-2">
               {profile.coverPhotos.map((photo, i) => (
                 <div
                   key={i}
                   onClick={() => onOpenPhotoGallery(i)}
-                  className="relative h-32 rounded-xl overflow-hidden group cursor-pointer border border-gray-200 shadow-sm"
+                  className="relative h-32 rounded-xl overflow-hidden cursor-pointer group shadow-sm bg-gray-100 border border-gray-200"
                 >
                   <img
                     src={photo.url}
                     alt={photo.caption}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
-                    <span className="text-[10px] text-white font-medium truncate">
-                      {photo.caption}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-90 group-hover:opacity-100" />
+                  <div className="absolute bottom-2 left-2 right-2 text-white">
+                    <span className="text-[9px] font-bold bg-blue-600 px-1.5 py-0.5 rounded inline-block mb-0.5">
+                      {photo.tag}
                     </span>
+                    <p className="text-[10px] font-medium truncate">{photo.caption}</p>
                   </div>
-                  <span className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded text-[9px] font-bold bg-black/60 text-white backdrop-blur-sm">
-                    {photo.tag}
-                  </span>
                 </div>
               ))}
             </div>

@@ -19,7 +19,8 @@ import {
   CheckCircle2, 
   AlertTriangle,
   Sliders,
-  Camera
+  Camera,
+  Flame
 } from 'lucide-react';
 
 export default function App() {
@@ -40,7 +41,7 @@ export default function App() {
   });
 
   // Dynamic Star Dish selection
-  const [selectedStarDish, setSelectedStarDish] = useState<string>('Seco de Res a la Norteña con Frejoles');
+  const [selectedStarDish, setSelectedStarDish] = useState<string>('Pollo Dorado a la Leña');
 
   // Customizer dynamic profile state
   const [customOptimizedProfile, setCustomOptimizedProfile] = useState<BusinessProfile>(OPTIMIZED_PROFILE);
@@ -55,6 +56,7 @@ export default function App() {
   };
 
   const customDishOptions = [
+    'Pollo Dorado a la Leña',
     'Seco de Res a la Norteña con Frejoles',
     'Lomo Saltado Clásico al Wok',
     'Ají de Gallina Cremoso',
@@ -76,42 +78,42 @@ export default function App() {
       />
 
       {/* Floating Pitch Badge & Quick Action Toolbar */}
-      <div className="bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-800 text-white px-3 sm:px-4 py-1.5 text-xs flex items-center justify-between shadow-sm z-20 shrink-0">
+      <div className="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 text-white px-3 sm:px-4 py-1.5 text-xs flex items-center justify-between shadow-sm z-20 shrink-0">
         <div className="flex items-center gap-2">
-          <span className="font-bold flex items-center gap-1">
-            <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
-            <span>Demostración Google Maps:</span>
+          <span className="font-extrabold flex items-center gap-1 bg-white/20 px-2 py-0.5 rounded-full">
+            <Sparkles className="w-3.5 h-3.5 text-yellow-200 animate-pulse" />
+            <span>Cierre Seguro en 5 Minutos</span>
           </span>
-          <span className="text-blue-100 hidden md:inline">
-            Ficha renovada para <strong>{activeProfile.name}</strong> con fotos HD, 3 posts de antojo y guion de cierre.
+          <span className="text-amber-100 hidden md:inline font-medium">
+            Foto impactante, Título con estrellas, Descripción profesional y Checklist de Beneficios.
           </span>
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={() => setGalleryState({ isOpen: true, initialIndex: 0 })}
-            className="text-[11px] font-bold bg-white/15 hover:bg-white/25 px-2.5 py-1 rounded-full transition-colors flex items-center gap-1"
+            className="text-[11px] font-bold bg-white/20 hover:bg-white/30 px-2.5 py-1 rounded-full transition-colors flex items-center gap-1"
             title="Ver galería de fotos"
           >
-            <Camera className="w-3 h-3 text-blue-200" />
+            <Camera className="w-3 h-3 text-amber-200" />
             <span>Ver Fotos HD</span>
           </button>
 
           <button
-            onClick={() => setIsCustomizerOpen(true)}
-            className="text-[11px] font-bold bg-amber-400 hover:bg-amber-300 text-gray-950 px-2.5 py-1 rounded-full transition-colors flex items-center gap-1 shadow-sm"
-            title="Editar textos y platos en vivo"
+            onClick={() => setIsPitchModalOpen(true)}
+            className="text-[11px] font-bold bg-white text-gray-900 hover:bg-amber-100 px-2.5 py-1 rounded-full transition-colors flex items-center gap-1 shadow-sm"
+            title="Ver presentación de ROI"
           >
-            <Sliders className="w-3 h-3" />
-            <span>Ajustar Datos</span>
+            <TrendingUp className="w-3 h-3 text-emerald-600" />
+            <span>Presentación ROI</span>
           </button>
 
           <button
             onClick={() => setIsOptimized(!isOptimized)}
             className={`text-[11px] font-bold px-2.5 py-1 rounded-full transition-colors flex items-center gap-1 border ${
               isOptimized 
-                ? 'bg-emerald-500/20 text-emerald-200 border-emerald-400/40' 
-                : 'bg-amber-500/20 text-amber-200 border-amber-400/40'
+                ? 'bg-black/20 text-white border-white/30' 
+                : 'bg-white text-gray-900 border-white'
             }`}
           >
             <ArrowLeftRight className="w-3 h-3" />
@@ -134,6 +136,7 @@ export default function App() {
               onOpenPhotoGallery={(idx) => setGalleryState({ isOpen: true, initialIndex: idx || 0 })}
               onTriggerDirections={() => setShowDirections(true)}
               onOpenCustomizer={() => setIsCustomizerOpen(true)}
+              onOpenPitchModal={() => setIsPitchModalOpen(true)}
             />
             <InteractiveMapView
               profile={activeProfile}
@@ -154,6 +157,7 @@ export default function App() {
                 onOpenPhotoGallery={(idx) => setGalleryState({ isOpen: true, initialIndex: idx || 0 })}
                 onTriggerDirections={() => setShowDirections(true)}
                 onOpenCustomizer={() => setIsCustomizerOpen(true)}
+                onOpenPitchModal={() => setIsPitchModalOpen(true)}
               />
             </div>
           </MobileDeviceFrame>

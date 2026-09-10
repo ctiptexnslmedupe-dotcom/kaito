@@ -2,10 +2,10 @@ import { BusinessProfile, SocialPost, MenuItem, ReviewItem } from '../types';
 
 export const OPTIMIZED_PROFILE: BusinessProfile = {
   id: 'sabor-y-sazon-opt',
-  name: 'Restaurante Sabor y Sazón',
-  subtitle: 'Comida Criolla & Menús Caseros de Autor',
+  name: 'Sabor y Sazón - Perfil Optimizado ✨',
+  subtitle: 'Comida Criolla, Pollo a la Leña & Menús Caseros',
   category: 'Restaurante de comida peruana',
-  secondaryCategory: 'Restaurante criollo • Comida casera • Almuerzos ejecutivos',
+  secondaryCategory: 'Restaurante criollo • Pollería tradicional • Almuerzos ejecutivos',
   rating: 4.9,
   reviewCount: 184,
   priceRange: 'S/. 12 – 30',
@@ -37,19 +37,24 @@ export const OPTIMIZED_PROFILE: BusinessProfile = {
     '🍲 Sabor y Sazón: El corazón del sabor casero en tu mesa. Disfruta de la auténtica sazón peruana con ingredientes frescos y el cariño de nuestra cocina. Desde nuestros menús diarios nutritivos hasta nuestros platos especiales, cada bocado es una experiencia de sabor inolvidable. ¡Visítanos y descubre por qué somos el secreto mejor guardado del barrio! ✨',
   coverPhotos: [
     {
-      url: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80',
-      caption: 'Lomo Saltado Jugoso con papas crujientes',
-      tag: 'Plato Estrella',
+      url: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=1200&q=80',
+      caption: 'Pollo Dorado Jugoso con papas crujientes y ensalada fresca',
+      tag: 'Foto Principal de Portada',
     },
     {
-      url: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80',
-      caption: 'Salón acogedor y familiar climatizado',
-      tag: 'Ambiente',
+      url: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80',
+      caption: 'Lomo Saltado Jugoso al Wok con papas amarillas',
+      tag: 'Plato Estrella',
     },
     {
       url: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80',
       caption: 'Seco de Res a la Norteña con frejoles cremosos',
       tag: 'Especial del Chef',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80',
+      caption: 'Salón acogedor y familiar climatizado',
+      tag: 'Ambiente',
     },
     {
       url: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80',
@@ -193,6 +198,17 @@ export const MENU_ITEMS: MenuItem[] = [
   },
   {
     id: 'm2',
+    name: 'Pollo Dorado a la Leña con Papas Nativas',
+    category: 'Platos a la Carta',
+    price: 26.0,
+    portion: '1/4 Pollo jugoso + Papas + Ensalada',
+    description: 'Pollo marinado con hierbas andinas y ajíes peruanos, dorado a la perfección, servido con papas crocantes y salsas de la casa.',
+    image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=600&q=80',
+    isPopular: true,
+    badge: '🍗 RECOMENDACIÓN DEL DÍA',
+  },
+  {
+    id: 'm3',
     name: 'Lomo Saltado Clásico al Wok',
     category: 'Platos a la Carta',
     price: 28.0,
@@ -203,7 +219,7 @@ export const MENU_ITEMS: MenuItem[] = [
     badge: '⭐ RECOMENDACIÓN DEL CHEF',
   },
   {
-    id: 'm3',
+    id: 'm4',
     name: 'Seco de Res a la Norteña con Frejoles',
     category: 'Platos a la Carta',
     price: 26.0,
@@ -214,23 +230,13 @@ export const MENU_ITEMS: MenuItem[] = [
     badge: '🥘 RECETA TRADICIONAL',
   },
   {
-    id: 'm4',
+    id: 'm5',
     name: 'Ají de Gallina Cremoso',
     category: 'Platos a la Carta',
     price: 22.0,
     portion: 'Porción individual',
     description: 'Pechuga de pollo deshilachada en crema suave de ají amarillo con nueces, queso fresco y especias, acompañada de papas nativas, huevo y aceituna botija.',
     image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',
-    isPopular: false,
-  },
-  {
-    id: 'm5',
-    name: 'Arroz con Pollo con Papa a la Huancaína',
-    category: 'Platos a la Carta',
-    price: 24.0,
-    portion: 'Dúo criollo generoso',
-    description: 'Arroz graneado perfumado con culantro, pimientos y cerveza negra, servido con presa dorada y crema huancaína artesanal de la casa.',
-    image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80',
     isPopular: false,
   },
   {
@@ -255,12 +261,12 @@ export const REVIEWS_LIST: ReviewItem[] = [
     reviewsCount: 42,
     rating: 5,
     timeAgo: 'Hace 3 días',
-    comment: '¡Qué gran descubrimiento en el barrio! El Seco de Res estaba tan suave que se deshacía con el tenedor y los frejoles tienen ese sabor casero de antaño. La atención del personal fue súper amable y rápida. Definitivamente se ha convertido en mi lugar fijo para almorzar.',
+    comment: '¡Qué gran descubrimiento en el barrio! El pollo y el Seco de Res estaban tan suaves y jugosos. Los frejoles tienen ese sabor casero de antaño. La atención del personal fue súper amable y rápida. Definitivamente mi lugar fijo para almorzar.',
     likes: 12,
     response: {
       ownerName: 'Sabor y Sazón (Propietario)',
       date: 'Hace 2 días',
-      text: '¡Muchas gracias Carlos! Nos alegra muchísimo que hayas disfrutado del Seco de Res. Todo nuestro equipo cocina con mucho cariño cada día. ¡Te esperamos pronto!',
+      text: '¡Muchas gracias Carlos! Nos alegra muchísimo que hayas disfrutado de nuestra sazón. Cocinamos con mucho cariño cada día. ¡Te esperamos pronto!',
     },
   },
   {
@@ -282,7 +288,7 @@ export const REVIEWS_LIST: ReviewItem[] = [
     reviewsCount: 115,
     rating: 5,
     timeAgo: 'Hace 2 semanas',
-    comment: 'Pedimos para toda la oficina por delivery y llegó en 25 minutos exactos, todo bien sellado y caliente. El Ají de Gallina y el Arroz con Pollo estuvieron 10 de 10. Muy recomendados.',
+    comment: 'Pedimos para toda la oficina por delivery y llegó en 25 minutos exactos, todo bien sellado y caliente. 10 de 10. Muy recomendados.',
     likes: 15,
   },
 ];
@@ -291,5 +297,5 @@ export const SALES_SCRIPT = {
   title: 'Guion de Cierre de Ventas (Mensajes / WhatsApp / Google Chat)',
   description: 'Plantilla de alta conversión lista para que el dueño o sus mozos respondan de forma cálida e inmediata a clientes potenciales que escriben desde Google Maps:',
   scriptText:
-    '¡Hola! Gracias por escribirnos a Sabor y Sazón 🍲. Con gusto te ayudamos. Hoy tenemos nuestro exquisito Seco de Res con Frejoles y Lomo Saltado Criollo como platos del día. ¿Te gustaría hacer un pedido para delivery o prefieres visitarnos en el local? ¡Te esperamos con el mejor sabor casero! ✨',
+    '¡Hola! Gracias por escribirnos a Sabor y Sazón 🍲. Con gusto te ayudamos. Hoy tenemos nuestro exquisito Seco de Res con Frejoles y Pollo Dorado Criollo como platos del día. ¿Te gustaría hacer un pedido para delivery o prefieres visitarnos en el local? ¡Te esperamos con el mejor sabor casero! ✨',
 };
